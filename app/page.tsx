@@ -18,7 +18,7 @@ const projects = [
    {
     title: 'The Assignment Tracker',
     description: 'A simple and efficient web application built to help keep track of assignments and tasks using a clean, intuitive interface and Model-View-Controller (MVC) design pattern.',
-    technologies: ['PHP', 'SCSS', 'Sass', 'MySQL/MariaDB', 'MVC'],
+    technologies: ['PHP','Sass', 'MySQL/MariaDB', 'MVC'],
     link: 'https://github.com/Damilolaadefenwa/assignmenttracker_app',
     liveDemoLink: 'https://assignmenttracker-app.onrender.com/'
   }
