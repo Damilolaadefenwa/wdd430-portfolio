@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getProjectById } from '@/lib/projects-db';
 
-// I updated the type: params is now a Promise which is the correct type for the new Next.js 14 App Router. 
-// The previous type was a synchronous type belonging to the old API route structure. 
+// I updated the type: params is now a Promise which is the correct type for the new Next.js 14 App Router.
+// The previous type was a synchronous type belonging to the old API route structure.
 // The rest of the code remains unchanged.
 // export async function GET(request: Request, { params }: { params: { id: string } }) {};
+
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   // 1. Await the Promise params object first
   const { id } = await params;

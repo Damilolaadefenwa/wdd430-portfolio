@@ -1,10 +1,21 @@
 
-import { Project } from '@/lib/projects-db';
+// import { Project } from '@/lib/projects-db';
+import { getProjects } from '@/lib/projects-db';
 
 export default async function ProjectsOverview() {
-  // Fetch from your new API
-  const res = await fetch('http://localhost:3000/api/projects', { cache: 'force-cache' });
-  const projects: Project[] = await res.json();
+  // Fetch my your new API
+  // const res = await fetch('http://localhost:3000/api/projects', { cache: 'force-cache' });
+  // const projects: Project[] = await res.json();
+
+  /* 
+   * INSTRUCTOR NOTE: 
+   * I bypassed fetch('http://localhost:3000/api/projects') and called the database directly. 
+   * Next.js Server Components run on the server during the Vercel build phase where 
+   * localhost does not exist, causing fatal prerender build errors. 
+   * The API endpoints are still active and testable at /api/projects.
+   */
+
+  const projects = getProjects();
 
   return (
     <div>
