@@ -28,8 +28,8 @@ export default function Home() {
   return (
     <main className="container mx-auto px-4 py-12 grow">
       <section className="text-center py-12">
-        <h1 className="text-4xl font-bold mb-4 text-gray-900">My Portfolio</h1>
-        <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-gray-50">My Portfolio</h1>
+        <p className="text-lg text-gray-700 dark:text-gray-50 max-w-2xl mx-auto">
           I&apos;m a full-stack developer blending structured software engineering with digital design. Here are some of my recent applications.
         </p>
       </section>
