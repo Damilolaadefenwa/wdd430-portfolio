@@ -6,6 +6,10 @@ async function OpenSourceProjectList() {
   // Fetch with query parameter
   // const res = await fetch('http://localhost:3000/api/projects?type=school', { cache: 'force-cache' });
   // const projects: Project[] = await res.json();
+
+  // Temporary 2-second delay to test loading.tsx (remove after testing)
+  // await new Promise((res) => setTimeout(res, 2000));
+
   const projects = await getProjects('opensource');
 
   return (

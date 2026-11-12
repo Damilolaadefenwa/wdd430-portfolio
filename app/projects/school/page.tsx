@@ -1,11 +1,15 @@
 // import { Project } from '@/lib/projects-db';
 import { getProjects } from '@/lib/projects-db';
 import { Suspense } from 'react';
+import ProjectCardSkeleton from '@/components/ProjectCardSkeleton';
 
 async function SchoolProjectList() {
   // Fetch with query parameter
   // const res = await fetch('http://localhost:3000/api/projects?type=school', { cache: 'force-cache' });
   // const projects: Project[] = await res.json();
+
+  // Temporary 2-second delay to test component streaming (remove after testing)
+  // await new Promise((res) => setTimeout(res, 2000));
 
   const projects = await getProjects('school');
 
@@ -25,7 +29,10 @@ export default async function SchoolProjectsPage() {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">School Projects</h2>
-      <Suspense fallback={<p className="text-gray-500 animate-pulse">Loading projects...</p>}>
+      {/* <Suspense fallback={<p className="text-gray-500 animate-pulse">Loading projects...</p>}>
+        <SchoolProjectList />
+      </Suspense> */}
+      <Suspense fallback={<ProjectCardSkeleton />}>
         <SchoolProjectList />
       </Suspense>
     </div>
