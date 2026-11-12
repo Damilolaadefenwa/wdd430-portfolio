@@ -1,12 +1,35 @@
 import { NextResponse } from 'next/server';
 import { getProjectById } from '@/lib/projects-db';
 
+
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const numericId = Number(id);
+
+  if (Number.isNaN(numericId)) {
+    return NextResponse.json({ error: 'Invalid id' }, { status: 400 });
+  }
+
+  const project = await getProjectById(numericId);
+
+  if (!project) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
+  return NextResponse.json(project);
+}
+
+
+/* NOTE: PREVIOUS SOLUTION */
 // I updated the type: params is now a Promise which is the correct type for the new Next.js 14 App Router.
 // The previous type was a synchronous type belonging to the old API route structure.
 // The rest of the code remains unchanged.
 // export async function GET(request: Request, { params }: { params: { id: string } }) {};
 
-export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+/* export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   // 1. Await the Promise params object first
   const { id } = await params;
   
@@ -27,4 +50,4 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
   // 5. Return the successful project data
   return NextResponse.json(project);
-}
+} */
