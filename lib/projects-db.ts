@@ -32,3 +32,43 @@ export async function getProjectById(id: number): Promise<Project | null> {
   `;
   return rows[0] ?? null;
 }
+
+// ADDING PAGINATION AND FILTERING FUNCTIONALITY TO THE PROJECTS DATABASE FILE
+// 1. Set to 3 items per page so you can test pagination with your 5 projects.
+const ITEMS_PER_PAGE = 3;
+
+export async function fetchFilteredProjects(
+  query: string,
+  currentPage: number
+): Promise<Project[]> {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  const searchTerm = `%${query}%`;
+
+  const { rows } = await sql<Project>`
+    SELECT * FROM projects
+    WHERE
+      title ILIKE ${searchTerm} OR
+      description ILIKE ${searchTerm} OR
+      array_to_string(technologies, ' ') ILIKE ${searchTerm}
+    ORDER BY id
+    LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+  `;
+
+  return rows;
+}
+
+//2. Function to fetch the total number of pages based on the filtered projects
+export async function fetchProjectsPages(query: string): Promise<number> {
+  const searchTerm = `%${query}%`;
+
+  const { rows } = await sql<{ count: string }>`
+    SELECT COUNT(*) FROM projects
+    WHERE
+      title ILIKE ${searchTerm} OR
+      description ILIKE ${searchTerm} OR
+      array_to_string(technologies, ' ') ILIKE ${searchTerm}
+  `;
+
+  const totalCount = Number(rows[0]?.count ?? 0);
+  return Math.ceil(totalCount / ITEMS_PER_PAGE);
+}
