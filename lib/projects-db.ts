@@ -41,8 +41,13 @@ export async function fetchFilteredProjects(
   query: string,
   currentPage: number
 ): Promise<Project[]> {
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  const searchTerm = `%${query}%`;
+  //Adding input validation to ensure that the currentPage is always a whole number of 1 or higher
+  const safePage = Math.max(1, Math.floor(currentPage) || 1);
+  const offset = (safePage - 1) * ITEMS_PER_PAGE;
+
+  // Escape literal % and _ characters so they don't act as unintended wildcards
+  const safeQuery = query.trim().slice(0, 100).replace(/[%_\\]/g, '\\$&');
+  const searchTerm = `%${safeQuery}%`;
 
   const { rows } = await sql<Project>`
     SELECT * FROM projects

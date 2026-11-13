@@ -10,9 +10,14 @@ async function FilteredProjectsContent({
   searchParams?: Promise<{ query?: string; page?: string }>;
 }) {
   const resolvedParams = searchParams ? await searchParams : undefined;
-  const query = resolvedParams?.query || '';
-  const currentPage = Number(resolvedParams?.page) || 1;
 
+  // 1. Trim extra spaces and limit search length to 100 characters
+  const query = (resolvedParams?.query ?? '').trim().slice(0, 100);
+
+  // 2. Ensure page is always a whole number of 1 or higher
+  const parsedPage = Number(resolvedParams?.page);
+  const currentPage = Number.isFinite(parsedPage) && parsedPage >= 1 ? Math.floor(parsedPage) : 1;
+ 
   const [projects, totalPages] = await Promise.all([
     fetchFilteredProjects(query, currentPage),
     fetchProjectsPages(query),
